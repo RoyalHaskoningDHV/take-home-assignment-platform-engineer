@@ -1,0 +1,23 @@
+name: Deploys to Staging
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Authenticating against Azure Container Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.REGISTRY_STAGING_URL }}
+          username: ${{ secrets.REGISTRY_STAGING_LOGIN }}
+          password: ${{ secrets.REGISTRY_STAGING_PASSWORD }}
+      - name: Build image & publish to Azure Container Registry
+        run: |
+          docker build . --file Dockerfile --tag ${{ secrets.REGISTRY_STAGING_URL }}/test:latest
+          docker push ${{ secrets.REGISTRY_STAGING_URL }}/test:latest
