@@ -32,6 +32,8 @@ resource "azurerm_app_service" "test" {
     "APPINSIGHTS_INSTRUMENTATIONKEY"                  = azurerm_application_insights.test.instrumentation_key
     "WEBSITE_LOAD_CERTIFICATES"                       = "*"
     "CorsAllowedOrigins"                              = var.cors_allowed_origins
+    "APPINSIGHTS_INSTRUMENTATIONKEY"                  = azurerm_application_insights.test.instrumentation_key
+    "EventConfiguration__ConnectionString"            = "Endpoint=sb://${var.event_hub_namespace}.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=${var.event_hub_access_key};EntityPath=${var.event_hub_name}"
   }
 }
 

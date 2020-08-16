@@ -13,6 +13,10 @@ module "test" {
   cors_allowed_origins          = "http://localhost:*,https://localhost:*"
   storage_account               = "testtf"
   storage_account_key           = var.storage_account_key
+  event_hub_namespace           = var.event_hub_namespace
+  event_hub_access_key          = var.event_hub_access_key
+  event_hub_name                = var.event_hub_name
+
   tags = {
     Env = "staging"
     Name = "test"
