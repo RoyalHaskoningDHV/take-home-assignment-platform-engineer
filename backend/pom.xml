@@ -72,26 +72,50 @@
 		<testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
 		<plugins>
 			<plugin>
-			<groupId>com.spotify</groupId>
-			<artifactId>docker-maven-plugin</artifactId>
-			<version>0.4.11</version>
-			<configuration>
-				<imageName>${docker.image.prefix}/${project.artifactId}</imageName>
-				<registryUrl>https://${docker.image.prefix}</registryUrl>
-				<serverId>${azure.containerRegistry}</serverId>
-				<dockerDirectory>docker</dockerDirectory>
-				<resources>
-					<resource>
-						<targetPath>/</targetPath>
-						<directory>${project.build.directory}</directory>
-						<include>${project.build.finalName}.jar</include>
-					</resource>
-				</resources>
-				<imageTags>
-					<imageTag>${project.version}</imageTag>
-					<imageTag>latest</imageTag>
-        		</imageTags>
-			</configuration>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.4.11</version>
+				<configuration>
+					<imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+					<registryUrl>https://${docker.image.prefix}</registryUrl>
+					<serverId>${azure.containerRegistry}</serverId>
+					<dockerDirectory>/</dockerDirectory>
+					<resources>
+						<resource>
+							<targetPath>/</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>${project.build.finalName}.jar</include>
+						</resource>
+					</resources>
+					<imageTags>
+						<imageTag>${project.version}</imageTag>
+						<imageTag>latest</imageTag>
+					</imageTags>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.microsoft.azure</groupId>
+				<artifactId>azure-webapp-maven-plugin</artifactId>
+				<version>0.1.3</version>
+				<configuration>
+					<authentication>
+						<serverId>azure-auth</serverId>
+					</authentication>
+					<resourceGroup>testteststaging</resourceGroup>
+					<appName>maven-linux-app-${maven.build.timestamp}</appName>
+					<region>westeu</region>
+					<containerSettings>
+						<imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+						<registryUrl>https://${docker.image.prefix}</registryUrl>
+						<serverId>${azure.containerRegistry}</serverId>
+					</containerSettings>
+					<appSettings>
+						<property>
+							<name>PORT</name>
+							<value>8080</value>
+						</property>
+					</appSettings>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
