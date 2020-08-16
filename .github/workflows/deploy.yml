@@ -19,5 +19,5 @@ jobs:
           password: ${{ secrets.REGISTRY_STAGING_PASSWORD }}
       - name: Build image & publish to Azure Container Registry
         run: |
-          docker build . --file Dockerfile --tag ${{ secrets.REGISTRY_STAGING_URL }}/test:latest
-          docker push ${{ secrets.REGISTRY_STAGING_URL }}/test:latest
+          docker build . --file Dockerfile --tag ${{ secrets.REGISTRY_STAGING_URL }}/demo:latest
+          docker push ${{ secrets.REGISTRY_STAGING_URL }}/demo:latest
